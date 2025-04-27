@@ -34,7 +34,8 @@ RUN go build
 
 
 FROM alpine:3.19.7 AS base_builder
-RUN apk add nodejs curl
+# RUN apk add nodejs curl
+RUN apk add --no-cache nodejs curl build-base python3 make g++ zlib-dev brotli-dev c-ares-dev nghttp2-dev openssl-dev icu-dev
 
 # Install NPM from source, as Alpine version is old and has dependency vulnerabilities
 # TODO: Find a better method which is resistant to supply chain attacks
@@ -45,7 +46,7 @@ WORKDIR /usr/src/app
 ENV HOPP_ALLOW_RUNTIME_ENV=true
 
 # Required by @hoppscotch/js-sandbox to build `isolated-vm`
-RUN apk add python3 make g++ zlib-dev brotli-dev c-ares-dev nghttp2-dev openssl-dev icu-dev
+# RUN apk add python3 make g++ zlib-dev brotli-dev c-ares-dev nghttp2-dev openssl-dev icu-dev
 
 RUN npm install -g pnpm@10.2.1
 COPY pnpm-lock.yaml .

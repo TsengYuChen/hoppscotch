@@ -3,6 +3,7 @@ import * as E from "fp-ts/Either"
 import * as O from "fp-ts/Option"
 import { pipe } from "fp-ts/lib/function"
 import { cloneDeep } from "lodash-es"
+import * as CryptoJS from "crypto-js"
 
 import {
   GlobalEnvItem,
@@ -84,7 +85,7 @@ const unsetEnv = (
 const getSharedMethods = (envs: TestResult["envs"]) => {
   let updatedEnvs = envs
 
-  const envGetFn = (key: any) => {
+  const envGetFn = (key: any, toFunction: boolean = true) => {
     if (typeof key !== "string") {
       throw new Error("Expected key to be a string")
     }
@@ -97,10 +98,18 @@ const getSharedMethods = (envs: TestResult["envs"]) => {
       )
     )
 
+    if (typeof result === "string" && toFunction && result.trim().startsWith("function")) {
+      try {
+        return new Function(`return (${result})`)();
+      } catch (e) {
+        console.error(`Failed to parse function environment variable: ${key}`, e);
+      }
+    }
+
     return result
   }
 
-  const envGetResolveFn = (key: any) => {
+  const envGetResolveFn = (key: any, toFunction: boolean = true) => {
     if (typeof key !== "string") {
       throw new Error("Expected key to be a string")
     }
@@ -122,6 +131,14 @@ const getSharedMethods = (envs: TestResult["envs"]) => {
 
       E.getOrElseW(() => undefined)
     )
+
+    if (typeof result === "string" && toFunction && result.trim().startsWith("function")) {
+      try {
+        return new Function(`return (${result})`)();
+      } catch (e) {
+        console.error(`Failed to parse function environment variable: ${key}`, e);
+      }
+    }
 
     return result
   }
@@ -175,6 +192,7 @@ const getSharedMethods = (envs: TestResult["envs"]) => {
         unset: envUnsetFn,
         resolve: envResolveFn,
       },
+      CryptoJS,
     },
     updatedEnvs,
   }

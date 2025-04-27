@@ -10,7 +10,7 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "types": ["@types/node", "@types/jest", "@relmify/jest-fp-ts", "vite/client"],
+    "types": ["@types/node", "@types/jest", "@relmify/jest-fp-ts", "vite/client", "@types/crypto-js"],
     "outDir": "./dist/",
     "declaration": true,
     "declarationMap": true,

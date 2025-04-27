@@ -55,7 +55,8 @@
     "@types/lodash-es": "4.17.12",
     "fp-ts": "2.16.9",
     "lodash": "4.17.21",
-    "lodash-es": "4.17.21"
+    "lodash-es": "4.17.21",
+    "crypto-js": "4.2.0"
   },
   "devDependencies": {
     "@digitak/esrun": "3.2.26",
@@ -65,6 +66,7 @@
     "@types/node": "22.7.5",
     "@typescript-eslint/eslint-plugin": "8.9.0",
     "@typescript-eslint/parser": "8.9.0",
+    "@types/crypto-js": "4.2.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.1",
